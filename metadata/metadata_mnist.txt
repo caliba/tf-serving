@@ -1,0 +1,67 @@
+{
+"model_spec":{
+ "name": "mnist",
+ "signature_name": "",
+ "version": "1"
+}
+,
+"metadata": {"signature_def": {
+ "signature_def": {
+  "serving_default": {
+   "inputs": {
+    "inputs": {
+     "dtype": "DT_STRING",
+     "tensor_shape": {
+      "dim": [],
+      "unknown_rank": true
+     },
+     "name": "tf_example:0"
+    }
+   },
+   "outputs": {
+    "classes": {
+     "dtype": "DT_STRING",
+     "tensor_shape": {
+      "dim": [],
+      "unknown_rank": true
+     },
+     "name": "hash_table_Lookup/LookupTableFindV2:0"
+    },
+    "scores": {
+     "dtype": "DT_FLOAT",
+     "tensor_shape": {
+      "dim": [],
+      "unknown_rank": true
+     },
+     "name": "TopKV2:0"
+    }
+   },
+   "method_name": "tensorflow/serving/classify"
+  },
+  "predict_images": {
+   "inputs": {
+    "images": {
+     "dtype": "DT_FLOAT",
+     "tensor_shape": {
+      "dim": [],
+      "unknown_rank": true
+     },
+     "name": "x:0"
+    }
+   },
+   "outputs": {
+    "scores": {
+     "dtype": "DT_FLOAT",
+     "tensor_shape": {
+      "dim": [],
+      "unknown_rank": true
+     },
+     "name": "y:0"
+    }
+   },
+   "method_name": "tensorflow/serving/predict"
+  }
+ }
+}
+}
+}
