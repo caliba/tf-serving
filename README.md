@@ -2,6 +2,12 @@
 ## 参考网站
 [TensorFlow Github](https://github.com/tensorflow/serving/blob/master/tensorflow_serving/g3doc/docker.md)
 [本文所使用的models及clients](https://github.com/caliba/tf-serving)
+
+版本：
+
+- Tf1:tensorflow/serving:1.15.0
+- Tf2:tensorflow/serving:2.3.0  &  tensorflow_serving:2.6.0
+
 ## TensorFlow Serving Structure
 ### server
 
@@ -22,7 +28,8 @@
 - images commit （用于更新环境和导入数据）
 
 `docker commit -a="" -m="" id new_images_name:tag`
-#### 
+
+
 
 ### CPU
 #### example 1
@@ -197,8 +204,7 @@ model_config_list:{
 
 ## Model Zoo
 
-[tensorflow_model_zoo](https://github.com/tensorflow/models/tree/master/research/object_detection/g3doc)
-[tensorflow_1_model_zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md)
-[tensorflow_2_model_zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md)
-
+- [tensorflow_model_zoo](https://github.com/tensorflow/models/tree/master/research/object_detection/g3doc)
+- [tensorflow_1_model_zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md)
+- [tensorflow_2_model_zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md)
 
