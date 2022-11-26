@@ -69,11 +69,14 @@
 ## 调试信息
 一般来说一个模型有两种类型的接口:gRPC(8500)和RESTful(8501)。应为每个部署的模型放置两个端口，模型在保存时不区分接口类型，而是需要根据不同类型的接口书写client。
 当模型有RESTful接口时，可以从如下链接访问模型，获取详细信息：**以resnet模型为例**
-查看tensorflow状态 ` [http://localhost:8501/v1/models/resnet](http://localhost:8501/v1/models/resnet)   `
-查看tensorflow模型信息：`[http://localhost:8501/v1/models/resnet/metadata](http://localhost:8501/v1/models/resnet/metadata)  `
-`[http://localhost:{端口号}/v1/models/{model_name}/versions/{version_N}/metadata](https://links.jianshu.com/go?to=http%3A%2F%2Fhost%3Aport%2Fv1%2Fmodels%2Fwind_lstm%2Fversions%2F20200626%2Fmetadata)`
-模型请求预测地址接口：`[http://localhost:8501/v1/models/resnet:predict](http://localhost:8501/v1/models/resnet:predict) （RESTful的接口）`
-查看模型输入输出信息：`saved_model_cli show --dir {model_dir_path} --all`
+
+- 查看tensorflow状态 
+  - ` [http://localhost:8501/v1/models/resnet]`
+- 查看tensorflow模型信息：
+  - `(http://localhost:8501/v1/models/resnet/metadata)  `
+  - `[http://localhost:{端口号}/v1/models/{model_name}/versions/{version_N}/metadata]`
+- 模型请求预测地址接口：`[http://localhost:8501/v1/models/resnet:predict]（RESTful的接口）`
+- 查看模型输入输出信息：`saved_model_cli show --dir {model_dir_path} --all`
 
 
 ## 从头创建一个tf-serving模型并部署
@@ -83,8 +86,9 @@
 - python3.7
 - [参考链接](https://www.tensorflow.org/tfx/tutorials/serving/rest_simple)
 ### 模型准备
-与正常的模型训练一样，训练过程分为三部分：数据准备 --->模型训练--->模型保存(pb)
+​	与正常的模型训练一样，训练过程分为三部分：数据准备 --->模型训练--->模型保存(pb)
 model.save() 在tf 2.x默认导出类型为.pb，在tf 1.x导出类型为.h5
+
 ```python
 # mnist model
 import tensorflow as tf
@@ -110,6 +114,9 @@ model.compile(optimizer='adam',
 
 model.fit(train_images, train_labels, epochs=10)
 
+# x = tf.placeholder(tf.float32, [None, lens], name="Input") 可指定op算子名称
+# tf.identity(y, name="Output") 或给算子命名
+
 #save_model
 model.save('./saved_model/mnist/1/', save_format='tf')  # save_format: Defaults to 'tf' in TF 2.X, and 'h5' in TF 1.X.
 
@@ -134,7 +141,7 @@ model.save('./saved_model/mnist/1/', save_format='tf')  # save_format: Defaults 
 `pred = r.json()['predictions'][0]`
 ### gRPC
 写此部分代码时我们需要已知模型的几个信息：`server_address`、`signature_name`、`model_name`、`input_name`、`input_shape`。
-以上的信息可以通过`**调试信息**`处的api进行获取。
+以上的信息可以通过`调试信息`处的api进行获取。
 其主要函数及参数如下：
 
 - **发送请求**
@@ -191,7 +198,7 @@ model_config_list:{
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/33921914/1669260800823-8dc735a2-b247-4168-9e50-a94ecdbbbc63.png#averageHue=%237a94cc&clientId=uf8ebfc78-1e2f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=293&id=u2ad03657&margin=%5Bobject%20Object%5D&name=image.png&originHeight=586&originWidth=846&originalType=binary&ratio=1&rotation=0&showTitle=false&size=69022&status=done&style=none&taskId=ue26920fc-8fb4-426b-88fa-5bf95f57e74&title=&width=423)
 `docker run -p 8500:8500 -p 8501:8501 --mount type=bind,source=/**/model,target=/models/ --name=tf_multi_v0.1 -t tensorflow/serving --model_config_file=/models/models.config`
 
-- **注意**`**--model_config_file中指定的config路径，必须是在/models/这个文件夹下，否则会出现model_path无法找到麻烦**`
+- **注意**`--model_config_file中指定的config路径，必须是在/models/这个文件夹下，否则会出现model_path无法找到麻烦`
 - **--model_config_file_poll_wait_seconds指定检测modes.config更新的时间**
 
 如果布置了RESTful端口，可以使用curl 来测试两个模型是否被真正部署
